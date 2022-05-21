@@ -3,6 +3,7 @@ import { setupListeners } from '@reduxjs/toolkit/query';
 // Or from '@reduxjs/toolkit/query/react'
 import counterReducer, { counterSlice } from '../features/counter/counterSlice';
 import { pokemonApi } from '../services/pokemon';
+import { postApi } from '../services/posts';
 
 export const store = configureStore({
   reducer: {
@@ -11,11 +12,14 @@ export const store = configureStore({
     // equal counter: counterReducer,
     // Add the generated reducer as a specific top-level slice
     [pokemonApi.reducerPath]: pokemonApi.reducer,
+    [postApi.reducerPath]: postApi.reducer,
   },
   // Adding the api middleware enables caching, invalidation, polling,
   // and other useful features of `rtk-query`.
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(pokemonApi.middleware),
+    getDefaultMiddleware()
+      .concat(pokemonApi.middleware)
+      .concat(postApi.middleware),
 });
 
 // optional, but required for refetchOnFocus/refetchOnReconnect behaviors
